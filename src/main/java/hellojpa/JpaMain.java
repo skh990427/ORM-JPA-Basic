@@ -16,11 +16,13 @@ public class JpaMain {
         tx.begin();
 
         try {
-            //code
-            Member member = new Member();
-            member.setId(2L);
-            member.setName("HelloB");
-            em.persist(member);
+            //id로 조회
+            Member findMember = em.find(Member.class, 1L);
+
+            findMember.setName("HelloJPA"); //더티체킹(변경감지)
+
+            //찾은 멤버 그냥 지우면 됨
+            em.remove(findMember);
 
             tx.commit();
         } catch (Exception e) {
