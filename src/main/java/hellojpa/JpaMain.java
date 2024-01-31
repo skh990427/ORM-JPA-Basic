@@ -18,19 +18,22 @@ public class JpaMain {
         tx.begin();
 
         try {
-//            //id로 조회
-//            Member findMember = em.find(Member.class, 1L)
 
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1) //1번 부터
-                    .setMaxResults(10) //10개 가져와 페이징처리
-                    .getResultList();
+            //비영속 상태
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("HelloJPA");
 
-            for (Member member : result) {
-                System.out.println("member = " + member.getName());
-            }
+            //영속 상태
+            em.persist(member); //이때 DB에 저장되는것이 아님! 그냥 객체를 영속상태로 변경하는 것 뿐!
 
-            tx.commit();
+            //준영속 상태
+            em.detach(member); //준영속 상태로변경! - 준영속이란? = 영속성 컨텍스트에서 다시 지움!
+
+            //실제 db 삭제를 요청하는 상태
+            em.remove(member);
+
+            tx.commit(); //트랜잭션이 커밋하는 시점에 영속성 컨텍스트에 있는 값이 날아가서 저장된다!
         } catch (Exception e) {
             tx.rollback();
         } finally {
