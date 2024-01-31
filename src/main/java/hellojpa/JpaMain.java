@@ -18,18 +18,8 @@ public class JpaMain {
         tx.begin();
 
         try {
-
-            //비영속 상태
-            Member member = new Member();
-            member.setId(101L);
-            member.setName("HelloJPA");
-
-            //영속 상태
-            em.persist(member); //이때 DB에 저장되는것이 아님! 그냥 객체를 영속상태로 변경하는 것 뿐!
-
-            Member findMember = em.find(Member.class, 101L);
-            System.out.println("findMember.id = " + findMember.getId());
-            System.out.println("findMember.name = " + findMember.getName());
+            Member findMember1 = em.find(Member.class, 101L);
+            Member findMember2 = em.find(Member.class, 101L);
 
             tx.commit(); //트랜잭션이 커밋하는 시점에 영속성 컨텍스트에 있는 값이 날아가서 저장된다!
         } catch (Exception e) {
