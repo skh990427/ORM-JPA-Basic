@@ -21,6 +21,8 @@ public class JpaMain {
             Member findMember1 = em.find(Member.class, 101L);
             Member findMember2 = em.find(Member.class, 101L);
 
+            System.out.println("result = " + (findMember1==findMember2));
+
             tx.commit(); //트랜잭션이 커밋하는 시점에 영속성 컨텍스트에 있는 값이 날아가서 저장된다!
         } catch (Exception e) {
             tx.rollback();
