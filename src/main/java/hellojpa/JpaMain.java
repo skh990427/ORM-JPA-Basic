@@ -18,12 +18,12 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = em.find(Member.class, 150L);
 
-            member.setName("ZZZZZ");
+            Member member = new Member(200L, "member200");
+            em.persist(member);
 
-            //JPA는 컬렉션처럼 운영 된다!
-            //em.persist(member); - persist 호출해야되는것 아니야?! 는 무슨 하핫! 변경 감지!
+            //flush란? 현재 영속성 컨텍스트와 DB상태를 매칭시켜줌
+            em.flush(); //플러시 강제호출 - 거의 쓸일 없음
 
             tx.commit(); //트랜잭션이 커밋하는 시점에 영속성 컨텍스트에 있는 값이 날아가서 저장된다!
         } catch (Exception e) {
