@@ -19,11 +19,13 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member(200L, "member200");
-            em.persist(member);
+            //em.find로 찾아서 영속성 컨텐스트에 가져오면 영속상태가 된다.
+            Member member = em.find(Member.class, 150L);
+            member.setName("AAAAAA"); // - 변경 감지
 
-            //flush란? 현재 영속성 컨텍스트와 DB상태를 매칭시켜줌
-            em.flush(); //플러시 강제호출 - 거의 쓸일 없음
+            em.detach(member); // 특정 엔티티만 준영속 상태로 전환
+            em.clear(); // 영속성 컨텍스트 안에 모든 엔티티를 준영속 상태로 전환(초기화)
+            em.close(); // 영속성 컨텍스트를 그냥 닫아버림
 
             tx.commit(); //트랜잭션이 커밋하는 시점에 영속성 컨텍스트에 있는 값이 날아가서 저장된다!
         } catch (Exception e) {
