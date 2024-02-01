@@ -10,7 +10,7 @@ public class Member {
     @Id //pk 매핑
     private Long id;
 
-    @Column(name = "name") //객체는 username 으로 쓰고싶은데 db는 name으로 쓰고싶다면? 이름지정!
+    @Column(name = "name", insertable = true, updatable = false, nullable = false, unique = true, length = 100)
     private String username;
 
     private Integer age;
