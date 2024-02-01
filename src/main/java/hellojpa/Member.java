@@ -1,5 +1,6 @@
 package hellojpa;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -8,6 +9,8 @@ public class Member {
 
     @Id
     private Long id;
+
+    @Column(unique = true, length = 10) //유니크 필드인지, 길이가 10인지? 결정할 수 있다.
     private String name;
 
     protected Member() {
