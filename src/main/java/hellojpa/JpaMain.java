@@ -23,7 +23,7 @@ public class JpaMain {
             member.setUsername("C");
 
             em.persist(member);
-
+            System.out.println("IDENTITY 는 이떄 insert 쿼리가 이미 날아감");
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
