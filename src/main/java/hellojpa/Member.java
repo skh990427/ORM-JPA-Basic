@@ -5,12 +5,13 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
+@SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq")
 public class Member {
 
     @Id //pk 매핑
 //    @GeneratedValue(strategy = GenerationType.AUTO) //기본값 DB 방언에 맞춰 자동으로 생성
 //    @GeneratedValue(strategy = GenerationType.IDENTITY) //데이터베이스에 아이디 생성 위임
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) //오라클 같은곳에서 많이 사용하는 전략
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_generator") //오라클 같은곳에서 많이 사용하는 전략
 //    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
