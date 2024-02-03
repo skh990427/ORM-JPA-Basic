@@ -2,6 +2,8 @@ package hellojpa;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 public class JpaMain {
 
     public static void main(String[] args) {
@@ -21,16 +23,18 @@ public class JpaMain {
             em.persist(team);
 
             Member member = new Member();
+            member.setUsername("member1");
             member.setTeam(team);
             em.persist(member);
 
-            Member findMember = em.find(Member.class, member.getId());
-            Team findTeam = findMember.getTeam();
-            System.out.println("findTeam = " + findTeam.getName());
+            em.flush();
+            em.clear();
 
-            //팀을 바꾸고싶다면?
-            Team newTeam = em.find(Team.class, 100L); //100번팀이 있다고 가정을 하고..!
-            findMember.setTeam(newTeam);
+            Member findMember = em.find(Member.class, member.getId());
+            List<Member> members = findMember.getTeam().getMembers();
+            for (Member m : members) {
+                System.out.println("m = " + m.getUsername());
+            }
 
             tx.commit();
         } catch (Exception e) {
