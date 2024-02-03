@@ -21,15 +21,16 @@ public class JpaMain {
             em.persist(team);
 
             Member member = new Member();
-            member.setUsername("member1");
-            member.setTeamId(team.getId());
+            member.setTeam(team);
             em.persist(member);
 
             Member findMember = em.find(Member.class, member.getId());
-            Long teamId = findMember.getTeamId();
-
-            Team findTeam = em.find(Team.class, teamId);
+            Team findTeam = findMember.getTeam();
             System.out.println("findTeam = " + findTeam.getName());
+
+            //팀을 바꾸고싶다면?
+            Team newTeam = em.find(Team.class, 100L); //100번팀이 있다고 가정을 하고..!
+            findMember.setTeam(newTeam);
 
             tx.commit();
         } catch (Exception e) {
