@@ -16,12 +16,21 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
             Member member = new Member();
-            member.setUsername("C");
-
+            member.setUsername("member1");
+            member.setTeamId(team.getId());
             em.persist(member);
-            System.out.println("IDENTITY 는 이떄 insert 쿼리가 이미 날아감");
+
+            Member findMember = em.find(Member.class, member.getId());
+            Long teamId = findMember.getTeamId();
+
+            Team findTeam = em.find(Team.class, teamId);
+            System.out.println("findTeam = " + findTeam.getName());
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
