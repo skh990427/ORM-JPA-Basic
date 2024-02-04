@@ -45,4 +45,13 @@ public class Member {
 
         team.getMembers().add(this); //연관관계에 값을 집어넣을때 다른쪽 연관관계의 값도 업데이트 해서 쓰자
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", team=" + team +
+                '}';
+    }
 }
