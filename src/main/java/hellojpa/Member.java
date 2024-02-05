@@ -13,6 +13,10 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false) //얘는 읽기 전용이 되어버림
+    private Team team;
+
     public Long getId() {
         return id;
     }
