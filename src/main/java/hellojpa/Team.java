@@ -8,14 +8,14 @@ import java.util.List;
 @Entity
 public class Team {
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     @Column(name = "TEAM_ID")
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "team") //이 mappedBy 는 뭐냐.. 외래키를 가지는 쪽이 주인임. mappedBy는 주인이 어느놈인지 지정하는거고
+    @OneToMany
+    @JoinColumn(name = "TEAM_ID")
     private List<Member> members = new ArrayList<>();
 
     public Long getId() {

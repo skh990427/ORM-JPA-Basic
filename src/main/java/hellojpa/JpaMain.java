@@ -19,27 +19,17 @@ public class JpaMain {
 
         try {
 
-            Team team = new Team();
-            team.setName("TeamA");
-//            team.getMembers().add(member); //team쪽에는 mappedby로 연관관계를 설정했기때문에 얘는 읽기 전용이다.
-            em.persist(team);
-
             Member member = new Member();
             member.setUsername("member1");
-            member.changeTeam(team); //양방향 연관관계 : 연관관계의 주인
+
             em.persist(member);
 
-//            team.getMembers().add(member); //순수 객체 상태를 고려하여 양쪽에 값을 셋팅해야함 / 연관관계 메서드 setTeam 메서드를 만들어서 쓰자
+            Team team = new Team();
+            team.setName("teamA");
+            //왜래키가 멤버테이블에 존재함... 운영이 힘들어짐
+            team.getMembers().add(member);
 
-//            em.flush();
-//            em.clear();
-
-            Team findTeam = em.find(Team.class, team.getId());
-            List<Member> members = findTeam.getMembers();
-
-            System.out.println("===");
-            System.out.println("members = " + findTeam);
-            System.out.println("===");
+            em.persist(team);
 
             tx.commit();
         } catch (Exception e) {
