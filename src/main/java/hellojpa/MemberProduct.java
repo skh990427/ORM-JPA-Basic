@@ -2,6 +2,8 @@ package hellojpa;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class MemberProduct {
 
@@ -15,4 +17,8 @@ public class MemberProduct {
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
+
+    private int count;
+    private int price;
+    private LocalDateTime orderDateTime; //내가 원하는 항목들도 추가 가능
 }
