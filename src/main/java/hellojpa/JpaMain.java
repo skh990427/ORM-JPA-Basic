@@ -19,17 +19,19 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("member1");
+            Movie movie = new Movie();
+            movie.setDirector("aaaa");
+            movie.setActor("bbbb");
+            movie.setName("영한님강의 최고에요!");
+            movie.setPrice(10000);
 
-            em.persist(member);
+            em.persist(movie);
 
-            Team team = new Team();
-            team.setName("teamA");
-            //왜래키가 멤버테이블에 존재함... 운영이 힘들어짐
-            team.getMembers().add(member);
+            em.flush();
+            em.clear();
 
-            em.persist(team);
+            Movie findMovie = em.find(Movie.class, 1L);
+            System.out.println("findMovie = " + findMovie);
 
             tx.commit();
         } catch (Exception e) {
