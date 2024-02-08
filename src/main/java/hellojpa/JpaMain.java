@@ -2,9 +2,6 @@ package hellojpa;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 public class JpaMain {
 
     public static void main(String[] args) {
@@ -20,12 +17,10 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("user");
-            member.setCreateBy("Kim");
-            member.setCreatedDate(LocalDateTime.now());
+            Member member = em.find(Member.class, 1L);
+//            printMemberAndTeam(member);
 
-            em.persist(member);
+            printMember(member); //이러면 팀은 조회해 올 필요가 없잖아..?
 
             tx.commit();
         } catch (Exception e) {
@@ -35,5 +30,17 @@ public class JpaMain {
         }
 
         emf.close();
+    }
+
+    private static void printMember(Member member) {
+        System.out.println("member = " + member.getUsername());
+    }
+
+    private static void printMemberAndTeam(Member member) {
+        String username = member.getUsername();
+        System.out.println("username = " + username);
+
+        Team team = member.getTeam();
+        System.out.println("team = " + team.getName());
     }
 }
