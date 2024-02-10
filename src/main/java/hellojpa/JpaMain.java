@@ -17,19 +17,20 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("hello");
-
-            em.persist(member);
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            em.persist(member1);
 
             em.flush();
             em.clear();
 
-//            Member findMember = em.find(Member.class, member.getId());
-            Member findMember = em.getReference(Member.class, member.getId());
-            System.out.println("findMember = " + findMember.getClass());
-            System.out.println("findMember.getId() = " + findMember.getId());
-            System.out.println("findMember.getUsername() = " + findMember.getUsername());
+            Member m1 = em.find(Member.class, member1.getId()); //영속성 컨텍스트에 올라가있는 상태
+            System.out.println("m1.getClass() = " + m1.getClass());
+
+            Member reference = em.getReference(Member.class, member1.getId());
+            System.out.println("reference.getClass() = " + reference.getClass());
+
+            System.out.println("m1 == reference = " + (m1 == reference));
 
             tx.commit();
         } catch (Exception e) {
