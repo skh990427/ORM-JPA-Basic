@@ -24,7 +24,7 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Member m1 = em.find(Member.class, member1.getId()); //영속성 컨텍스트에 올라가있는 상태
+            Member m1 = em.getReference(Member.class, member1.getId()); //영속성 컨텍스트에 올라가있는 상태
             System.out.println("m1.getClass() = " + m1.getClass());
 
             Member reference = em.getReference(Member.class, member1.getId());
