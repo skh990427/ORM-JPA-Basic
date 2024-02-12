@@ -27,14 +27,14 @@ public class JpaMain {
             Member refMember = em.getReference(Member.class, member1.getId()); //영속성 컨텍스트에 올라가있는 상태
             System.out.println("refMember.getClass() = " + refMember.getClass());
 
-            Member findMember = em.find(Member.class, member1.getId());
-            System.out.println("findMember.getClass() = " + findMember.getClass());
+            em.detach(refMember);
 
-            System.out.println("refMember == findMember = " + (refMember == findMember));
+            refMember.getUsername();
 
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         } finally {
             em.close();
         }
