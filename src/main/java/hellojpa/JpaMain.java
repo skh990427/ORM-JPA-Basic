@@ -24,13 +24,13 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Member m1 = em.getReference(Member.class, member1.getId()); //영속성 컨텍스트에 올라가있는 상태
-            System.out.println("m1.getClass() = " + m1.getClass());
+            Member refMember = em.getReference(Member.class, member1.getId()); //영속성 컨텍스트에 올라가있는 상태
+            System.out.println("refMember.getClass() = " + refMember.getClass());
 
-            Member reference = em.getReference(Member.class, member1.getId());
-            System.out.println("reference.getClass() = " + reference.getClass());
+            Member findMember = em.find(Member.class, member1.getId());
+            System.out.println("findMember.getClass() = " + findMember.getClass());
 
-            System.out.println("m1 == reference = " + (m1 == reference));
+            System.out.println("refMember == findMember = " + (refMember == findMember));
 
             tx.commit();
         } catch (Exception e) {
