@@ -3,6 +3,8 @@ package hellojpa;
 import jakarta.persistence.*;
 import org.hibernate.Hibernate;
 
+import java.util.List;
+
 public class JpaMain {
 
     public static void main(String[] args) {
@@ -21,22 +23,30 @@ public class JpaMain {
             team.setName("teamA");
             em.persist(team);
 
+            Team team2 = new Team();
+            team2.setName("teamB");
+            em.persist(team2);
+
             Member member1 = new Member();
             member1.setUsername("member1");
             member1.setTeam(team);
-
             em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("member2");
+            member2.setTeam(team2);
+            em.persist(member2);
 
             em.flush();
             em.clear();
 
-            Member m = em.find(Member.class, member1.getId());
+//            Member m = em.find(Member.class, member1.getId());
 
-            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass());
+            List<Member> members = em.createQuery("select m from Member m", Member.class)
+                    .getResultList();
 
-            System.out.println("==========");
-            m.getTeam().getName(); //이때 쿼리가 나감
-            System.out.println("==========");
+            //SQL : select * from Member;
+            //SQL : select * from Team where TEAM_ID = xxx0
 
             tx.commit();
         } catch (Exception e) {
