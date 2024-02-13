@@ -17,23 +17,26 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
 
             Member member1 = new Member();
             member1.setUsername("member1");
+            member1.setTeam(team);
+
             em.persist(member1);
 
             em.flush();
             em.clear();
 
-            Member refMember = em.getReference(Member.class, member1.getId()); //영속성 컨텍스트에 올라가있는 상태
-            System.out.println("refMember.getClass() = " + refMember.getClass());
+            Member m = em.find(Member.class, member1.getId());
 
-            Hibernate.initialize(refMember); //프록시 강제 초기화
-            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(refMember)); //프록시가 로딩 됐는지 확인
+            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass());
 
-            em.detach(refMember);
-
-            refMember.getUsername();
+            System.out.println("==========");
+            m.getTeam().getName(); //이때 쿼리가 나감
+            System.out.println("==========");
 
             tx.commit();
         } catch (Exception e) {
