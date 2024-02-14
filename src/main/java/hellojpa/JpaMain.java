@@ -21,20 +21,14 @@ public class JpaMain {
         try {
 
             Address address = new Address("city", "street", "10000");
-            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
 
             Member member1 = new Member();
             member1.setUsername("member1");
             member1.setHomeAddress(address);
             em.persist(member1);
 
-            Member member2 = new Member();
-            member2.setUsername("member2");
-            member2.setHomeAddress(copyAddress); //항상 복사된 값을 넣어야함
-            em.persist(member2);
-
-
-            member1.getHomeAddress().setCity("newCity");
+            Address newAddress = new Address("newCity", address.getStreet(), address.getZipcode());
+            member1.setHomeAddress(newAddress); //값타입은 그냥 싹 불변객체로 만들어야 한다.
 
             tx.commit();
         } catch (Exception e) {
