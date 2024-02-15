@@ -3,6 +3,10 @@ package hellojpa;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Member {
@@ -15,13 +19,23 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-    //기간
-    @Embedded
-    private Period workPeriod;
-
     //주소
     @Embedded
     private Address homeAddress;
+
+    //값 타입 컬렉션 매핑할때는 아래 두개 애노테이션 사용
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
+        @JoinColumn(name = "MEMBER_ID")
+    )
+    @Column(name = "FOOD_NAME") //값 타입이 하나라서 예외적으로 허용한다. 컬럼명 설정
+    private Set<String> favoriteFoods = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "ADDRESS", joinColumns =
+        @JoinColumn(name = "MEMBER_ID")
+    )
+    private List<Address> addressHistory = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -37,14 +51,6 @@ public class Member {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public Period getWorkPeriod() {
-        return workPeriod;
-    }
-
-    public void setWorkPeriod(Period workPeriod) {
-        this.workPeriod = workPeriod;
     }
 
     public Address getHomeAddress() {
