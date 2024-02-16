@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.Hibernate;
 
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
 
@@ -27,10 +28,26 @@ public class JpaMain {
             member.getFavoriteFoods().add("족발");
             member.getFavoriteFoods().add("피자");
 
-            member.getAddressHistory().add(new Address("old1", "Sstreet", "10000"));
-            member.getAddressHistory().add(new Address("old2", "Sstreet", "10000"));
+            member.getAddressHistory().add(new Address("old1", "street", "10000"));
+            member.getAddressHistory().add(new Address("old2", "street", "10000"));
 
             em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            System.out.println("============== START ==============");
+            Member findMember = em.find(Member.class, member.getId());
+
+            List<Address> addressHistory = findMember.getAddressHistory();
+            for (Address address : addressHistory) {
+                System.out.println("address = " + address.getCity());
+            }
+
+            Set<String> favoriteFoods = findMember.getFavoriteFoods();
+            for (String favoriteFood : favoriteFoods) {
+                System.out.println("favoriteFood = " + favoriteFood);
+            }
 
             tx.commit();
         } catch (Exception e) {
