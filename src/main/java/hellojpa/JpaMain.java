@@ -39,15 +39,18 @@ public class JpaMain {
             System.out.println("============== START ==============");
             Member findMember = em.find(Member.class, member.getId());
 
-            List<Address> addressHistory = findMember.getAddressHistory();
-            for (Address address : addressHistory) {
-                System.out.println("address = " + address.getCity());
-            }
+            Address a = findMember.getHomeAddress();
+            findMember.setHomeAddress(new Address("new City", a.getStreet(), a.getZipcode())); //값 타입은 통으로 갈아껴야함
 
-            Set<String> favoriteFoods = findMember.getFavoriteFoods();
-            for (String favoriteFood : favoriteFoods) {
-                System.out.println("favoriteFood = " + favoriteFood);
-            }
+            //치킨 -> 한식 으로 변경
+            //얘는 변경 하는 방법이 없음 그냥 지우고 새로 넣어야함
+            findMember.getFavoriteFoods().remove("치킨");
+            findMember.getFavoriteFoods().add("한식");
+
+            //주소를 old1 -> new1
+            //remove 할때는 equals로 비교해서 지우는데 이럴떄 equals가 제대로 구현이 안되어있으면 망하는거임
+            findMember.getAddressHistory().remove(new Address("old1", "street", "10000"));
+            findMember.getAddressHistory().add(new Address("newCity1", "street", "10000"));
 
             tx.commit();
         } catch (Exception e) {
