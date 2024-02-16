@@ -19,16 +19,18 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("homeCity", "street", "10000"));
 
-            Address address = new Address("city", "street", "10000");
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
 
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setHomeAddress(address);
-            em.persist(member1);
+            member.getAddressHistory().add(new Address("old1", "Sstreet", "10000"));
+            member.getAddressHistory().add(new Address("old2", "Sstreet", "10000"));
 
-            Address newAddress = new Address("newCity", address.getStreet(), address.getZipcode());
-            member1.setHomeAddress(newAddress); //값타입은 그냥 싹 불변객체로 만들어야 한다.
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
